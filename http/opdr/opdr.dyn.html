@@ -1,13 +1,68 @@
+<!DOCTYPE html>
 <html lang="nl">
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="/style">
-        <link rel="stylesheet" href="/style/main.css">
-    </head>
-    <body>
-        <div class="main">
-            <h1>Hallo, wereld!</h1>
-            <p>Het is vandaag ${new Date().toLocaleDateString()}.</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eenvoudige Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            margin: 20px;
+        }
+
+        .block {
+            float: left;
+            width: 30%;
+            margin: 1.66%;
+            padding: 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        footer {
+            clear: both;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welkom op mijn website</h1>
+    </header>
+
+    <div class="container">
+        <div class="block">
+            <h2>Blok 1</h2>
+            <p>Dit is een voorbeeld van een floating block.</p>
         </div>
-    </body>
+        <div class="block">
+            <h2>Blok 2</h2>
+            <p>Floating blocks maken een eenvoudige layout mogelijk.</p>
+        </div>
+        <div class="block">
+            <h2>Blok 3</h2>
+            <p>Experimenteer met de kleuren en stijlen!</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Eenvoudige Website</p>
+    </footer>
+</body>
 </html>
