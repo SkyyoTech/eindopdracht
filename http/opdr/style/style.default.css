@@ -45,3 +45,9 @@ footer {
     text-align: center;
     box-sizing: border-box;
  }
+ .logo {
+    position: absolute;
+    top: 10px; /* zorgt ervoor dat beetje distance zit */
+    right: 10px; /* rechts distance */
+    z-index: 10; /* aboveeee everythinggg */
+  }
