@@ -39,7 +39,7 @@ footer {
 
  .card {
     width: 22%;
-    background-color: hsl(0, 0%, 91%);
+    background-color: rgba(176, 176, 176, 0.89);
     color: white;
     padding: 20px;
     text-align: center;
