@@ -1,0 +1,19 @@
+{
+    "type":"ollama",
+    "opt":{
+        "_model": "gpt-4o-mini-2024-07-18",
+        "__model":"gpt-4o-mini",
+        "model":"llama3.2",
+        "messages":[
+            {"role":"system","content":"only respond in html, nothing else. No markdown snippets or anything. just directly the html. dont use external files or resources"},
+            {"role":"user","content":"make a website about anything you want. try to make it dynamic. its gonna be directly served as is."}
+        ]
+    },
+    "replace":{
+        "^.*?(<html>|<html lang=\"en\">)|<\/html>.*$":""
+    },
+    "cycle":10,
+    "headers":{
+        "Content-Type":"text/html"
+    }
+}
