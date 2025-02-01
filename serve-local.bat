@@ -1,0 +1,1 @@
+.\bin\deno.exe run --allow-import --allow-read --allow-write --allow-net --allow-env --env-file ./main.ts --http=8080
