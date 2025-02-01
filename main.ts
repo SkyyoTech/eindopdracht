@@ -1,13 +1,17 @@
-import Engine from './engine.ts';
+import {Engine,setOpt} from './engine.ts';
 import * as http from './http-server.ts';
-import docs from "./docs.d.ts";
+import "./docs.d.ts";
+import "./lib.deno.d.ts";
 import * as Logsole from './console.ts';
 //import "jsr:@std/dotenv/load";
 const deno=Deno; // mitigate error messages in vscode
 
 let logcatPath=deno.env.get("logcatfile");
 
-Error.stackTraceLimit = 1000;
+//Error.stackTraceLimit = 1000;
+
+setOpt("debug",false);
+setOpt("eventDbg",false);
 
 let args:{
     opt:Record<string,string[]>;
@@ -21,8 +25,8 @@ let args:{
 let nopt:string='';
 for(let a of deno.args){
     if(nopt){
-        args.opt[nopt.replace("--","")]=a;
-        nopt="";
+        //args.opt[nopt.replace("--","")]=a;
+        //nopt="";
     } else if(a.startsWith("--")&&a.length>2){
         let l=a.split("=");
         let fl=l[0].replace("--","");
@@ -131,6 +135,7 @@ let tlsopt: TlsOptions={
     key: await deno.readTextFile(deno.env.get("keyfile")).catch(e=>""),
     cert: await deno.readTextFile(deno.env.get("certfile")).catch(e=>""),
     ca: await deno.readTextFile(deno.env.get("cafile")).catch(e=>""),
+    alpnProtocols: ["h2","http/1.1"],
 };
 
 
@@ -141,10 +146,26 @@ for(let sport of sports)tcp.start(parseInt(sport));
 tcp.proxied=true;
 tcp.intTlsOpt=tlsopt;
 for(let dport of dports)tcp.proxy(parseInt(dport));
-tcp.on("connect",http.listener);
 tcp.on("nulldata",e=>logsole.log("no data"));
 tcp.on("error",e=>logsole.error(e));
 // http2, should also make it a cli option
+tcp.on("connect",async({socket,client}:HttpSocket)=>{
+    if(client.isValid&&client.headers.upgrade?.includes("h2c")){
+        const h2c=await socket.http2();
+        if(h2c){
+            http.listener2(h2c);
+            console.log("using http2");
+            return;
+        } else {
+            console.log("couldn't upgrade to http2");
+            //socket.deny();
+            return;
+        }
+    } else {
+        http.listener(socket);
+        console.log("using http1.1");
+    };
+});
 tcp.on("http2",http.listener2);
 tcp.upgrade=true;
 

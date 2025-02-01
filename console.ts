@@ -1,3 +1,4 @@
+import "./lib.deno.d.ts";
 const deno=Deno;
 const tc={
     e:TextEncoder.prototype.encode.bind(new TextEncoder),
@@ -14,7 +15,7 @@ export class Logcat{
         this.ready=this.#init(lcp);
         this.logcatPath=lcp;
     }
-    async#init(logcatPath){
+    async#init(logcatPath?:string){
         let err;
         const logfstream = await deno.open(logcatPath||"./logcat.log", {
             create: true,
@@ -72,7 +73,7 @@ export class LogcatConsole{
 
 let logcat:Logcat;
 let logsole:LogcatConsole;
-export default function setup(logPath){
+export default function setup(logPath?:string){
     if(!logcat&&!logsole){
         logcat=new Logcat(logPath);
         logsole=new LogcatConsole(logcat);
